@@ -110,11 +110,37 @@
             <?php }
         
         ?>
+
+        <div id="contact_us">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <h2 class="mb-5">Contact Us</h2>
+                    <p style="margin-bottom:1px">Our mailling address is : </p>
+                    <span>aliashour592@gmail.com</span>
+                    <p>Phone: 01007346184</p>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form id="contact-us-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="message" rows="3" name="message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<a href="?lang=en">english</a>
-<a href="?lang=ar">arabic</a>
 
 <?php include_once $tmp."footer.php" ; ?>
 
