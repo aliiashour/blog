@@ -87,3 +87,13 @@
 .favoruit{
     color: red;
 }
+.post-body{
+    min-height: 500px;
+}
+.emojii > h5{
+    cursor: pointer;
+}
+
+.emojii > h5:hover{
+    color: #3294e9;
+}

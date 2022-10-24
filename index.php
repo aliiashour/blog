@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-11 text-start">
-                                        <h5 class="card-title text-truncate"><a href="post.php?post_id=<?php echo $row['post_id']?>&lang=<?php echo $_SESSION['lang']?>"><?php echo $row['post_title']?></a></h5>
+                                        <h5 class="card-title text-truncate"><a href="posts.php?post_id=<?php echo $row['post_id']?>&lang=<?php echo $_SESSION['lang']?>"><?php echo $row['post_title']?></a></h5>
                                     </div>
                                     <div class="col-1 text-end">
                                         <div class="dropdown">
