@@ -102,10 +102,19 @@
     margin-top: 10px;
     background-color: #e6e6e6;
 }
-footer{
+/* 
+.footer{
+     position: relative; 
+}
+    position: absolute;
+    bottom: 0;
+    width: 100%;  */
+    
+.footer footer{
+    background:#ccc;
     padding: 120px 10px;
 }
-footer a{
+.footer footer a{
     color: #7bb0ff;
     text-decoration: none;
 }
