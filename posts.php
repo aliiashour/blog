@@ -37,7 +37,12 @@
                                     <div class="row">
                                         <div class="col-6 text-start publisher-info">
                                             <?php
-                                                echo $row['user_name'] ; 
+                                                $lnk =  '<a href="publisher.php?publisher_id='.$row['user_id'] ;
+                                                if(isset($_SESSION["user_id"])){
+                                                    $lnk .= '&lang='.$_SESSION['lang'] ; 
+                                                }
+                                                $lnk .= '" >'.$row['user_name'].'</a>' ; 
+                                                echo $lnk ; 
                                             ?>
                                         </div>
                                         <div class="col-6 text-end post-info">    

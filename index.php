@@ -73,14 +73,14 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-11 text-start">
-                                        <h5 class="card-title text-truncate"><a href="posts.php?post_id=<?php echo $row['post_id']?>&lang=<?php echo $_SESSION['lang']?>"><?php echo $row['post_title']?></a></h5>
+                                        <h5 class="card-title text-truncate"><a data-post_id = <?php echo $row['post_id']?> id="click_post_title" href="posts.php?post_id=<?php echo $row['post_id']?>&lang=<?php echo $_SESSION['lang']?>"><?php echo $row['post_title']?></a></h5>
                                     </div>
                                     <div class="col-1 text-end">
                                         <div class="dropdown">
                                             <i class="fa-solid fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a class="dropdown-item" href="publisher.php?user_id=<?php echo $row['post_publisher']?>&lang=<?php echo $_SESSION['lang'] ; ?>">
+                                                    <a class="dropdown-item" href="publisher.php?publisher_id=<?php echo $row['post_publisher']?>&lang=<?php echo $_SESSION['lang'] ; ?>">
                                                         <?php echo ucfirst(value_of('publisher'))?>
                                                     </a>
                                                 </li>
@@ -228,6 +228,16 @@
             
             $(this).toggleClass("favoruit") ; 
         })
+
+        $("#click_post_title").on('click', function(){
+            post_id = $(this).data('post_id') ;
+            $.ajax({
+                url:"./handle_files/add_post_visitor.php",
+                method:"POST",
+                data:{post_id:post_id}
+            })
+        })
+        
 
     </script>
 
