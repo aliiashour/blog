@@ -42,7 +42,7 @@
                                   <a class="dropdown-item" href="profile.php?lang=<?php echo $_SESSION['lang']?>"><?php echo ucfirst(value_of('profile'))?></a>
                               </li>
                               <li>
-                                  <a class="dropdown-item" href="posts.php?lang=<?php echo $_SESSION['lang']?>"><?php echo ucfirst(value_of('my_posts'))?></a>
+                                  <a class="dropdown-item" href="my_posts.php?lang=<?php echo $_SESSION['lang']?>"><?php echo ucfirst(value_of('my_posts'))?></a>
                               </li>
                               <li>
                                   <hr class="dropdown-divider">
