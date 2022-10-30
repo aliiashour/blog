@@ -4,7 +4,7 @@
 ?>
     
 <div class="container-fluid">
-    <div class="row">
+    <div class="row all-page">
         <div class="slider">
             <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-indicators">
@@ -48,9 +48,20 @@
 
 
         <?php
-        
+            $page_size = 2;
+            if(isset($_GET['page_id']) && !empty($_GET['page_id'])){
+                $start_from = ($_GET['page_id'] - 1) * $page_size; 
+            }else{
+                $start_from = 0 ; 
+            }
+
+            $q = "SELECT * FROM posts" ; 
+            $stmt = $con->prepare($q) ; 
+            $stmt->execute();
+            $all = $stmt->rowCount() ; 
+
             // now get all posts from database descanding order
-            $q = "SELECT * FROM posts ORDER BY post_time DESC" ; 
+            $q = "SELECT * FROM posts ORDER BY post_time DESC LIMIT $start_from, $page_size" ; 
             $stmt = $con->prepare($q) ; 
             $stmt->execute();
             if($stmt->rowCount()){
@@ -94,7 +105,7 @@
                                                 ));
                                                 ?>
                                                 
-                                                <i class="fa-solid fa-heart <?php if($stmt2->rowCount()){ echo 'favoruit' ;}?> love_icon" data-user_id="<?php if(isset($_SESSION['user_id'])){ echo $_SESSION['user_id'] ;  }?>" data-post_id="<?php echo $row['post_id']?>"></i>
+                                                <i class="fa-solid fa-heart <?php if($stmt2->rowCount()){ echo 'favoruit ' ;}?>love_icon" data-user_id="<?php if(isset($_SESSION['user_id'])){ echo $_SESSION['user_id'] ;  }?>" data-post_id="<?php echo $row['post_id']?>"></i>
                                                 
                                                 <?php
                                             }
@@ -105,6 +116,38 @@
                         </div>
                     </div>
                 <?php }
+                $pag = '' ; 
+                $pag .= '<nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mt-1">
+                            <li class="page-item';
+                            if(!isset($_GET['page_id']) || $_GET['page_id'] == 1){
+                                $pag .=' disabled'; 
+                            }
+                            $pag .= '">
+                                <a class="page-link" href="?page_id=';
+                                if(isset($_GET['page_id'])){
+                                    $pag .= $_GET['page_id']-1 ; 
+                                } 
+                                $pag .= '">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="?page_id=1">1</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_id=2">2</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_id=3">3</a></li>
+                            <li class="page-item';
+                            if(isset($_GET['page_id']) && $_GET['page_id'] == ceil($all / $page_size) ){
+                                $pag .=' disabled';
+                            }
+                            $pag .= '"><a class="page-link" href="?page_id=';
+                            if(isset($_GET['page_id'])){
+                                $pag .= $_GET['page_id']+1 ; 
+                            }else{
+                                $pag .= 1 ; 
+                            } 
+                            $pag .= '">Next</a>
+                                </li>
+                            </ul>
+                        </nav>' ; 
+                echo $pag ; 
             }else{ ?>
                 <div class="col text-center text-primary">there are no posts yet!</div>
             <?php }
@@ -142,7 +185,51 @@
 </div>
 
 
+<?php include_once $tmp."footer_design.php" ; ?>
 <?php include_once $tmp."footer.php" ; ?>
+
+    <script>
+        
+        $("#search_form").on("submit", function(event){
+            event.preventDefault() ; 
+            var search_for = $("#searchable").val() ; 
+            if(search_for.length > 0){
+                $.ajax({
+                    url:"./handle_files/handle_search.php",
+                    method:"post",
+                    data:{search_for:search_for},
+                    beforeSend:function(){
+                        $("#submit_button").html('loading') ; 
+                        $("#submit_button").attr('disabled', 'disabled') ; 
+                    },
+                    success:function(data){
+                        $(".all-page").html(data) ; 
+                        $("#submit_button").html('search') ; 
+                        $("#submit_button").attr('disabled', false) ; 
+                    }
+                })
+            }else{
+                alert('Enter a string to search') ; 
+            }
+        }) ; 
+
+        $(".love_icon").on('click', function(){
+            user_id = $(this).data('user_id') ; 
+            post_id = $(this).data('post_id') ;
+            mood = 'add' ; 
+            if($(this).hasClass('favoruit')){
+                mood = 'remove' ; 
+            }
+            $.ajax({
+                url:"./handle_files/add_to_favoruits.php",
+                method:"POST",
+                data:{mood:mood, user_id:user_id, post_id:post_id}
+            })
+            
+            $(this).toggleClass("favoruit") ; 
+        })
+
+    </script>
 
     </body>
 </html>
