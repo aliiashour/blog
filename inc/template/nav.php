@@ -4,8 +4,8 @@
       <div class="col-6 col-xm-4 col-md-4 text-primary" style="line-height:36px"><?php echo ucfirst(value_of('welcome')) . " ". ucfirst(value_of('ali')) ;  ?></div>
       <div class="col-6 col-xm-4 col-md-4">
         <form class="d-flex" role="search" id="search_form">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <input class="btn btn-outline-success" type="submit" value="Search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchable" id="searchable">
+            <button class="btn btn-outline-success" type="submit" id="submit_button" >search</button>
         </form>
       </div>
       <div class="col-sm-4 d-none d-md-block">
