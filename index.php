@@ -90,8 +90,33 @@
                                 </div>
                                 <p class="card-text"><?php echo $row['post_content']?></p>
                                 <div class="row">
-                                    <div class="col-11 text-start">
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                    <div class="rate_post col-11 text-start">
+                                        <!-- need to get the num of the stars the sessioned user rate that post  -->
+                                        <?php 
+                                            if(isset($_SESSION['user_id'])){
+                                                $q = "SELECT post_num_of_stars FROM post_rats WHERE post_id = ? AND user_id= ?" ; 
+                                                $stmt2 = $con->prepare($q) ; 
+                                                $stmt2->execute(array($row['post_id'], $_SESSION['user_id']));
+                                                if($stmt2->rowCount()){
+                                                    $res = $stmt2->fetch() ; 
+                                                    $rate = $res['post_num_of_stars'] ;    
+                                                }else{
+                                                    $rate = 0 ; 
+                                                }
+                                                $out = '' ; 
+                                                for ($i=0; $i <5 ; $i++) { 
+                                                    $out .= '<i class="rate';
+                                                    if($i < $rate) $out .=' fa-solid' ; 
+                                                    $out .= ' fa-regular fa-star" data-star_num="'. $i+1 .'" data-post_id="'.$row['post_id'].'"></i>' ;
+                                                    echo $out ;
+                                                    $out = ''  ; 
+                                                }
+                                            }else{
+                                                echo '<span class="text-secondary">login to rate the post</span>' ; 
+                                            }
+
+                                        ?>
+                                        
                                     </div>
                                     <div class="col-1 text-end">
                                         <!-- check if this post are favouirt for sessioned user -->
@@ -236,7 +261,28 @@
                 method:"POST",
                 data:{post_id:post_id}
             })
-        })
+        }) ; 
+
+        $(".fa-star").on("click", function(){
+            var post_id = $(this).data('post_id') ; 
+            var star_num = $(this).data('star_num') ; 
+            $(".fa-star").each(function(){
+                if($(this).data('post_id') == post_id){
+                    $(this).removeClass('fa-solid'); 
+                }
+            }) ; 
+            $(".fa-star").each(function(){
+                if($(this).data('star_num') <= star_num && $(this).data('post_id') == post_id){
+                    $(this).addClass('fa-solid'); 
+                }
+            }) ; 
+
+            $.ajax({
+                url:"./handle_files/rate_post.php",
+                method:"post",
+                data:{post_id:post_id, star_num:star_num}
+            }) ; 
+        }) ; 
         
 
     </script>
